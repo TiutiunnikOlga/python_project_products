@@ -1,0 +1,29 @@
+[project]
+name = "package-name"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "iutiunniklga",email = "tiutiunnikolga@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "flake8 (>=7.2.0,<8.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "package_name", from = "src"}]
+
+
+[tool.poetry.group.dev.dependencies]
+pytest-cov = "^6.2.1"
+flake8 = "^7.2.0"
+
+
+
+[tool.poetry.group.lint.dependencies]
+black = "^25.1.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
