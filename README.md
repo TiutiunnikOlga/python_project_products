@@ -8,7 +8,7 @@
 
 1. Клонируйте репозиторий:
 
-[gitHub] (https://github.com/TiutiunnikOlga/project.git)
+[gitHub] (https://github.com/TiutiunnikOlga/python_project_products)
 
 2. На данном этапе больше ничего не требуется
 
