@@ -25,6 +25,9 @@ class Product:
     @price.setter
     def price(self, new_price: float):
         new_price = float(new_price)
+        if not isinstance(new_price, (int, float)):
+            print("Ошибка: цена должна быть числом")
+            return
         if new_price <= 0:
             print("Цена не должна быть нулевой или отрицательной")
             return
