@@ -14,7 +14,7 @@ class Product:
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other):
-        return f"{self.quantity * self.price} + {other.quantity * other. price}"
+        return f"{self.quantity * self.price + other.quantity * other. price}"
 
     @classmethod
     def new_product(cls, new_product: dict):
