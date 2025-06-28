@@ -116,3 +116,14 @@ class TestCategory(unittest.TestCase):
 
         self.assertEqual(len(self.category.products), 1)
         self.assertEqual(Category.product_count, 1)
+
+
+def test_str_representation(category_three):
+    assert str(category_three) == "Смартфоны, количество продуктов: 5 шт."
+
+
+def test_multiple_products():
+    product1 = Product("Samsung", "Описание", 10000, 5)
+    product2 = Product("Apple", "Описание", 20000, 3)
+    category = Category("Смартфоны", "Описание", [product1, product2])
+    assert str(category) == "Смартфоны, количество продуктов: 8 шт."
