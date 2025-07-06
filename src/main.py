@@ -1,14 +1,24 @@
 class Product:
     name: str
     description: str
-    _price: float
+    __price: float
     quantity: int
+    color: str
 
-    def __init__(self, name, description, price: float, quantity):
+    def __init__(self, name, description, price: float, quantity, color="Не указан"):
         self.name = name
         self.description = description
         self.__price = price
         self.quantity = quantity
+        self.color = color
+
+    def __str__(self):
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other):
+        if type(other) is Product:
+            return f"{self.quantity * self.price + other.quantity * other.price}"
+        raise TypeError
 
     @classmethod
     def new_product(cls, new_product: dict):
@@ -16,7 +26,8 @@ class Product:
         description = new_product.get("description", "")
         price = new_product.get("price")
         quantity = new_product.get("quantity")
-        return cls(name, description, price, quantity)
+        color = new_product.get("color")
+        return cls(name, description, price, quantity, color)
 
     @property
     def price(self) -> float:
@@ -34,10 +45,12 @@ class Product:
 
         # Если новая цена ниже текущей, запрашиваем подтверждение
         if new_price < self.__price:
-            confirm = input(f"Текущая цена: {self.__price}. "
-                            f"Новая цена: {new_price}. "
-                            "Вы уверены, что хотите установить цену ниже? (y/n): ")
-            if confirm.lower() != 'y':
+            confirm = input(
+                f"Текущая цена: {self.__price}. "
+                f"Новая цена: {new_price}. "
+                "Вы уверены, что хотите установить цену ниже? (y/n): "
+            )
+            if confirm.lower() != "y":
                 print("Цена не изменена")
                 return
 
@@ -60,6 +73,9 @@ class Category:
         Category.category_count += 1
         Category.product_count += len(products)
 
+    def __str__(self):
+        return f"{self.name}, количество продуктов: {sum(product.quantity for product in self.__products)} шт."
+
     @property
     def products(self) -> list:
         return self.__products
@@ -70,9 +86,12 @@ class Category:
         Category.product_count = len(self.__products)
 
     def add_product(self, product: Product):
-        """Метод для добавления одного продукта"""
-        self.__products.append(product)
-        Category.product_count += 1
+        """Метод для добавления одного продукта, проверяем принадлежность к классу Product"""
+        if isinstance(product, Product):
+            self.__products.append(product)
+            Category.product_count += 1
+        else:
+            raise TypeError
 
 
 if __name__ == "__main__":
@@ -163,3 +182,7 @@ if __name__ == "__main__":
     print(new_product.price)
     new_product.price = 0
     print(new_product.price)
+
+    print(new_product)
+    print(category1)
+    print(product1 + product2)
