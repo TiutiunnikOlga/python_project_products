@@ -77,12 +77,14 @@ class TestProduct(unittest.TestCase):
             "description": "Описание",
             "price": 2000.0,
             "quantity": 5,
+            "color": "black",
         }
         new_product = Product.new_product(product_dict)
 
         self.assertEqual(new_product.name, "Новый продукт")
         self.assertEqual(new_product.price, 2000.0)
         self.assertEqual(new_product.quantity, 5)
+        self.assertEqual(new_product.color, "black")
 
 
 class TestCategory(unittest.TestCase):
@@ -127,3 +129,25 @@ def test_multiple_products():
     product2 = Product("Apple", "Описание", 20000, 3)
     category = Category("Смартфоны", "Описание", [product1, product2])
     assert str(category) == "Смартфоны, количество продуктов: 8 шт."
+
+
+def test_edge_cases(product):
+    # Минимальные значения
+    product_min = Product("Test", "Desc", 0.01, 1)
+    assert product_min.price == 0.01
+    assert product_min.quantity == 1
+
+    # Максимальные значения
+    product_max = Product("Test", "Desc", 1000000.0, 1000)
+    assert product_max.price == 1000000.0
+    assert product_max.quantity == 1000
+
+
+def test_color_attribute(product):
+    # Используем fixture product
+    product.color = "Красный"
+    assert product.color == "Красный"
+
+    # Создаем новый продукт для проверки значения по умолчанию
+    default_product = Product("Test", "Desc", 100.0, 5)
+    assert default_product.color == "Не указан"
