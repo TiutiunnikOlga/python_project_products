@@ -1,5 +1,8 @@
-from src.main import Product, Category
 import unittest
+
+import pytest
+
+from src.main import Category, Product
 
 
 def test_main(product):
@@ -151,3 +154,35 @@ def test_color_attribute(product):
     # Создаем новый продукт для проверки значения по умолчанию
     default_product = Product("Test", "Desc", 100.0, 5)
     assert default_product.color == "Не указан"
+
+
+def test_middle_price_single_product():
+    # Категория с одним продуктом
+    product = Product("Продукт 1", "Описание", 1000, 1)
+    category = Category("Одна позиция", "Описание", [product])
+    assert category.middle_price() == 1000.0
+
+
+def test_middle_price_multiple_products():
+    # Категория с несколькими продуктами
+    product1 = Product("Продукт 1", "Описание", 1000, 1)
+    product2 = Product("Продукт 2", "Описание", 2000, 1)
+    product3 = Product("Продукт 3", "Описание", 3000, 1)
+    category = Category("Несколько позиций", "Описание", [product1, product2, product3])
+    assert category.middle_price() == 2000.0
+
+
+def test_price_empty_category():
+    # Проверка пустой категории
+    category = Category("Пустая категория", "Описание", [])
+    with pytest.raises(ValueError) as excinfo:
+        category.middle_price()
+    assert str(excinfo.value) == "Есть категории со значением 0"
+
+
+def test_middle_price_mixed_values():
+    # Смешанные значения
+    product1 = Product("Продукт 1", "Описание", 0, 1)  # Цена 0
+    product2 = Product("Продукт 2", "Описание", 2000, 1)
+    category = Category("Смешанная категория", "Описание", [product1, product2])
+    assert category.middle_price() == 1000.0
