@@ -1,4 +1,4 @@
-from src.main import Product, Category
+from src.main import Category, Product
 
 
 class Smartphone(Product):

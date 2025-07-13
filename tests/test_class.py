@@ -1,5 +1,6 @@
-from src.main import Product
 import unittest
+
+from src.main import Product
 
 
 class Smartphone(Product):
