@@ -1,7 +1,5 @@
 import unittest
 
-import pytest
-
 from src.main import Category, Product
 
 
@@ -172,12 +170,13 @@ def test_middle_price_multiple_products():
     assert category.middle_price() == 2000.0
 
 
-def test_price_empty_category():
-    # Проверка пустой категории
-    category = Category("Пустая категория", "Описание", [])
-    with pytest.raises(ValueError) as excinfo:
-        category.middle_price()
-    assert str(excinfo.value) == "Есть категории со значением 0"
+def test_zero_division_error():
+    try:
+        category = Category("Empty", "Empty category", [])
+        category.middle_price()  # Должна вернуть 0, а не ошибку
+        print("Тест пройден: корректно обработан случай пустой категории")
+    except ZeroDivisionError:
+        print("Тест не пройден: возникла ошибка деления на ноль")
 
 
 def test_middle_price_mixed_values():

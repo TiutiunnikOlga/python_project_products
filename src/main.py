@@ -102,14 +102,15 @@ class Category:
             raise TypeError
 
     def middle_price(self):
+        if not self.__products:
+            return 0
+
         try:
-            if not self.__products:
-                print("Категория пуста, среднее значение цены не может быть вычислено")
-            return sum([product.price for product in self.__products]) / len(
+            return sum(product.price for product in self.__products) / len(
                 self.__products
             )
         except ZeroDivisionError:
-            raise ValueError("Есть категории со значением 0")
+            return ZeroDivisionError("Есть категории со значением 0")
 
 
 if __name__ == "__main__":
